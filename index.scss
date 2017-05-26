@@ -1,0 +1,509 @@
+@import "mixins";
+*{
+	@include clear-style();
+}
+//广告
+.banner{
+	@include div-box-color(100%,40px,#444);
+}
+.banner > div{
+	@include div-box-max(85%,40px);
+	span{
+		@include font-style(12px,#a8a8aa,40px);
+		font-family: "HanHei SC", PingHei, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		float:right;
+	}
+}
+//导航
+.nav{
+	@include  square(100%,44px);
+	background:rgba(0,0,0,0.8);
+	position:relative;
+	z-index:1000;
+}
+.nav .lists .left-btn {
+    @include square(48px);
+    display: inline-block;
+    .top,.bottom{
+      @include div-box-color(17px,1px,#fff);
+      margin:0 auto;
+    }
+    .top{
+      margin-top:23px - 7px;
+      margin-bottom:7px;
+    }
+}
+
+.nav .lists {
+	@include div-box-max(1000px, 44px);
+	@include po-center;
+    box-sizing:border-box;
+    padding:0 20px;
+	text-align: justify;
+	z-index:5;
+	li.ulis {
+		@include font-style(20px, #fff, 44px);
+		display: inline-block;
+		a {
+			height: 44px;
+			display: block;
+			transition: opacity 0.6s ease, transform .6s ease;
+		}
+	}
+	.left-btn,.right-btn{
+        cursor: pointer;
+		display:none;
+        @include cns(770px){
+            display:inline-block;
+            transition: opacity 0.6s ease, transform .6s ease;
+        }
+        &:hover{
+           opacity:0.4;
+        }
+	}
+	&::after {
+		content: '';
+		display: inline-block;
+		@include square(100%, 0);
+		font-size: 0;
+	}
+}
+.nav .lists .ulis a:hover{
+	opacity:0.4;
+}
+.nav .lists .ulis {
+	a.menu {
+		@include cns(770px) {
+			display: none;
+		}
+	}
+    &.now.clicking{
+      @include cns(770px){
+        @include div-box(calc(100vw - 130px),48px);
+        border-bottom:1px solid #333;
+        display:block;
+        background-color:#000;
+        cursor: pointer;
+        &:hover{
+            a{
+              opacity:0.4;
+            }
+        }
+        a{
+          display:block;
+          margin-left:30px;
+        }
+
+      }
+    }
+	a.logo{
+		@include cns(770px){
+			@include juzhong;
+		}
+	}
+    a.bag{
+        @include cns(770px){
+            display:block;
+            position:absolute;
+            top:0;
+            right:20px;
+        }
+      &.click{
+        display:none;
+      }
+    }
+}
+
+.nav.searching .lists .ulis a.menu{
+    transform:scale(0,0);
+}
+
+.nav .search-bigbox {
+    @include cns(770px){
+      display:none;
+    }
+	@include  square(682px,100%);
+	@include  po-center;
+	overflow: hidden;
+	.search-box {
+		@include square(100%,100%);
+		transform: translate3d(1000px, 0, 0);
+	}
+}
+.nav .search-bigbox .search-box{
+	button{
+		@include  square(40px,44px);
+		float:left;
+		background: url("images/search.svg") no-repeat center center;
+	}
+	input{
+		@include div-box-color(642px,22px,rgba(0,0,0,0));
+		@include  font-style(18px,#fff,22px);
+		font-family: '仿宋';
+		margin-top:10px;
+		float:right;
+	}
+}
+.nav.searching .search-bigbox {
+	z-index: 10;
+	.search-box{
+		transition:transform .6s ease;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.search-nav{
+	@include  div-box-color(682px,196px,#fff);
+	@include  po-center;
+	top:84px;
+	z-index:-10;
+	overflow: hidden;
+    @include cns(770px){
+      display:none;
+    }
+	.span-a{
+		@include square(570px+48*2px,30px);
+		@include  font-style(14px,#999,30px);
+		margin:5px 10px;
+		box-sizing:border-box;
+		display:block;
+		transform: translate3d(1000px, 0, 0);
+	}
+}
+.search-nav{
+	span.span-a{
+		@include  font-style(12px,#999,30px);
+		padding:0 20px;
+		margin-top:10px;
+	}
+	a.span-a{
+		padding:0 48px;
+		&:hover{
+			color:#0070c9;
+			background:#F2F2F2;
+		}
+	}
+}
+.searching.search-nav{
+	z-index:10;
+	.span-a{
+		@include nth-child(5,transform,0.05s);
+		transform: translate3d(0, 0, 0);
+	}
+}
+$li-w:("logo":40px,"mac":31px,"ipad":30px,"iphone":48px,"watch":44px,"music":40px,"support":57px,"search":20px,"bag":18px);
+@each $lia in map_keys($li-w) {
+	.ulis .#{$lia}{
+		width:map_get($li-w,$lia);
+		background:url("images/#{$lia}.svg") no-repeat center center;
+	}
+}
+
+//轮播
+.carousel{
+	width:100%;
+	min-height:100px;
+	//calc 四则运算(动态计算)  vh屏幕的高度(viewpt height)
+	height:calc(100vh - 76px);
+	margin-top:-44px;
+	overflow: hidden;
+}
+$a-bgc:("iphone":#000,"watch":#F3F3F3,"airpods":#FFFFFF,"event":#030106);
+.carousel {
+	position:relative;
+	.aimgs > a{
+		@include  div-box(100%,100%);
+		@include  juzhong();
+		display:none;
+		@include  bg-img($a-bgc);
+	}
+	.lis{
+		@include square(224px,auto);
+		position:absolute;
+		left:50%;
+		margin-left:-112px;
+		bottom:20px;
+		text-align:justify;
+		z-index:100;
+		li{
+			@include div-box-color(50px,2px,#DCDCDC);
+			cursor: pointer;
+			float:left;
+			margin:0 3px;
+			//规定背景的绘制区域
+			background-clip:content-box;
+			padding:10px 0;
+		}
+	}
+	.btn-left,.btn-right{
+		@include square(25%,100%);
+		position:absolute;
+		z-index:100;
+		cursor: pointer;
+		&:hover{
+			.left,.right{
+				opacity:1;
+			}
+		}
+	}
+	.btn-left{
+		left:0;
+	}
+	.btn-right{
+		right:0;
+	}
+	a.left,a.right{
+		display:block;
+			 @include square(64px);
+			 @include juzhong;
+			 background:rgba(180,180,180,0.25);
+			 border-radius: 50%;
+			 @include font-center(40px,#848484,64px);
+			 font-family:'宋体';
+			 @include transition(opacity,0.8s);
+			 opacity:0;
+			 cursor:pointer;
+	}
+}
+.carousel .aimgs a {
+	&.active {
+		z-index:1;
+		display:block;
+		@include  transition(transform,0.8s);
+		transform: translate3d(0,0,0);
+	}
+	&.right-in{
+		z-index:1;
+		display:block;
+		@include  transition(transform,0.8s);
+		transform:translate3d(100%,0,0);
+	}
+	&.left-in{
+		display:block;
+		transform:translate3d(-100px,0,0);
+	}
+	&.right-out{
+		z-index:2;
+		display:block;
+		@include transition(transform,0.8);
+		transform:translate3d(100%,0,0);
+	}
+	&.left-out{
+		display:block;
+		@include  transition(transform,0.8s);
+		transform:translate3d(-100px,0,0);
+	}
+}
+.carousel .lis li{
+	&.active{
+		background:#555;
+		background-clip:content-box;
+		padding:10px 0;
+	}
+}
+//四图
+.ais{
+	@include square(100%,auto);
+	z-index:100;
+	&.row{
+		overflow: hidden;
+	}
+	li{
+		height:200px;
+		border:3px solid #fff;
+		box-sizing:border-box;
+		border-right:0;
+		@include  nth-child-style (3,4) {
+			@include cnm{
+				border-top:0;
+			}
+		}
+		@include  nth-child-style (1) {
+			@include cns{
+				border-top:10px solid #fff;
+			}
+		}
+		@include  nth-child-style (2) {
+			@include cns{
+				border-top:0;
+			}
+		}
+		&.col{
+			float:left;
+		}
+	}
+	@include  lms(l);
+	@include cnm{
+		@include  lms(m);
+	}
+	@include cns{
+		@include  lms(s)
+	}
+}
+$ads-list : "ios","music","watchos","iphone_upgrade";
+@each $ad in $ads-list {
+	li.#{$ad} {
+		background:url("images/#{$ad}_large.jpg") no-repeat center center;
+		@include cnm{
+			background:url("images/#{$ad}_medium.jpg") no-repeat center center;
+		}
+		@include cns{
+			background:url("images/" + $ad + "_small.jpg") no-repeat center center;
+		}
+	}
+}
+//列表
+.column-box{
+	@include div-box-color(100%,auto,#F2F2F2);
+	overflow: hidden;
+	padding-top:20px;
+	box-sizing:border-box;
+	.column{
+		@include div-box-max(980px,100%);
+		padding:0 22px;
+		.a{
+			@include square(20%,100%);
+			float:left;
+			@include cns(770px){
+				@include square(100%,auto);
+			}
+		}
+		.span-ul{
+			margin-bottom:20px;
+			&>span{
+				@include font-style(12px,#333,20px);
+				font-weight:600;
+				span{
+					display:none;
+				}
+			}
+			ul li a{
+				@include font-style(14px,#666,20px);
+				&:hover{
+					color:#333;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}
+.column-box .column{
+	@include cns(770px){
+		.span-ul{
+			border-bottom:1px solid #E3E3E3;
+			margin-bottom:0;
+			cursor: pointer;
+			overflow: hidden;
+			& > span{
+				position: relative;
+				z-index:10;
+				display: block;
+				@include div-box-color(100%,38px,#F2F2F2);
+				@include font-style(14px,#000,38px);
+				font-weight:400;
+				&.click{
+					font-weight:600;
+				}
+				span{
+					font-weight:normal;
+					display: block;
+					float:right;
+					margin-right:8px;
+					@include transition(transform,0.2s);
+					&.click{
+						transform: rotate(45deg) scale(1.08);
+					}
+				}
+			}
+			ul{
+				height:0;
+				overflow: hidden;
+				transform: translate3d(0,-100%,0);
+			}
+			ul.click{
+				height:auto;
+				@include  transition(transform,0.5s);
+				transform: translate3d(0,0,0);
+			}
+			ul li a{
+				display:block;
+				width:100%;
+				line-height:30px;
+				padding:0 20px;
+			}
+		}
+	}
+}
+//end
+.end-box{
+	@include div-box-color(100%,auto,#F2F2F2);
+	@include cns(770px){
+		padding-top:15px;
+	}
+	padding-bottom:30px;
+	box-sizing:border-box;
+	overflow: hidden;
+	.end{
+		@include div-box-max(980px,100%);
+		padding:0 22px;
+	}
+}
+.end-box .end .box3s {
+	@include square(100%, 30px);
+}
+.end-box .end .box{
+	@include font-style(12px, #B2B2B2,30px);
+	@include cns(770px){
+		@include square(100%, auto);
+	}
+	a{
+		@include font-style(12px,#3C7CCE,30px);
+		&:hover{
+			color:#666;
+			text-decoration: underline;
+		}
+	}
+	&.b1{
+		border-bottom:1px solid #E3E3E3;
+		@include cns(770px){
+			border:0;
+		}
+	}
+	&.b2{
+		float:right;
+		a{
+			img{
+				margin-right:10px;
+			}
+			color:#333;
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+	&.b3{
+		float:left;
+	}
+	&.b4{
+		float:left;
+		a{
+			color:#666;
+
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+		span{
+			color:#B2B2B2;
+			display:inline-block;
+			margin:0 10px;
+		}
+	}
+	&.b5 a{
+			color:#B2B2B2;
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+
